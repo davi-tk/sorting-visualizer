@@ -1,5 +1,5 @@
 <template>
-    <section class="w-fit m-auto mt-10" id="#array">
+    <section class="w-fit m-auto" id="#array" :style="{marginTop: '10%'}">
         <div class="place-items-end max-w flex gap-1"> 
             
             <div v-for="(value, index) in props.array" :key="index" 
