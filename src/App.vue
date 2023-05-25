@@ -1,22 +1,30 @@
 <script setup lang="ts">
-import Array from './components/Array.vue';
+import { ref, Ref, watch } from 'vue';
+import { random } from 'lodash';
+import { NSlider, NInputNumber } from 'naive-ui';
+import ArrayView from './components/ArrayView.vue';
+
+const min: number = 50
+const length: Ref<number> = ref(min)
+
+const randomArray = (length: number, max: number): number[] => [...new Array(length)].map(() => random(1, max))
+
+const array: Ref<number[]> = ref(randomArray(length.value, length.value * 2))
+
+watch(length, () => array.value = randomArray(length.value, length.value * 2))
+
+
 </script>
 
 <template>
-  <Array :length="20"/>
+  <section id="slider" class="w-1/3 p-4">
+
+    <n-slider :min=min v-model:value="length" :step="2" />
+    <n-input-number :min="min" v-model:value="length" size="small" />
+  </section>
+
+  <ArrayView :length="length" :array="array"/>
+
 </template>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>
+<style scoped></style>
