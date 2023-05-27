@@ -19,6 +19,11 @@ watch(length, () => array.value = randomArray(length.value, min, max))
 
 const sortArray = (array: number[], fn : Function): number[] => fn(array)
 
+const listen = (algorithm: Function) : void => {
+  algo.value = algorithm
+  selected.value = true
+}
+
 </script>
 
 <template>
@@ -29,11 +34,10 @@ const sortArray = (array: number[], fn : Function): number[] => fn(array)
       <n-input-number :min="min" v-model:value="length" :max="200" size="large" />
     </div>
     <NButton @click="array = randomArray(length, min, max)" type="primary" ghost size="large" class="col-span-2">Generate New Array</NButton>
-    <Options/>
+    <Options @algorithm= "listen"/>
     <NButton @click="sortArray(array, algo)" type="info" ghost size="large" :disabled="!selected">Sort!</NButton>
   </section>
-
-  <ArrayView :length="length" :array="array" />
+  <ArrayView :length="length" :array="array"/>
 </template>
 
 <style scoped></style>
