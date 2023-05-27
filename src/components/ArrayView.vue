@@ -3,8 +3,9 @@
         <div class="place-items-end max-w flex gap-1"> 
             
             <div v-for="(value, index) in props.array" :key="index" 
-            class="bg-neutral-300 "
-            :style="{height: `${((value/4) - length/20)/1.5}rem`, width: `calc(1.5rem - ${length/100}rem)`}">
+            class="bg-neutral-300"
+            :style="{height: `${((value/4) - length/20)/1.5 + 4}rem`, width: `calc(2rem - ${length/90}rem)`,
+            minWidth: '5px'}">
             </div>
         </div>
     </section>
