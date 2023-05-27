@@ -18,15 +18,27 @@ const swap = (arr: number[], n: number, m: number): void => {
 
 }
 
-const bubbleSort = (arr: number[]): void => {
+function sleep(ms : number) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+const bubbleSort = async (arr: number[], n:Ref<number>, m:Ref<number>, active:Ref<boolean>): Promise<void> => {
+
+    active.value = false
+
 
     for (var i = 0; i < arr.length; i++) {
         for (var j = 0; j < (arr.length - i - 1); j++) {
             if (arr[j] > arr[j + 1]) {
+                n.value = j
+                m.value = j+1
                 swap(arr, j, j+1)
             }
+            await(sleep(30))
         }
     }
+
+    active.value = true
 }
 
 const options = [

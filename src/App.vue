@@ -10,6 +10,8 @@ const length: Ref<number> = ref(min)
 const max : number = length.value * 2
 const selected : Ref<boolean> = ref(false)
 const algo : Ref<Function> = ref(() => {})
+const n : Ref<number> = ref(-1)
+const m : Ref<number> = ref(-1)
  
 const randomArray = (length: number, min: number, max: number): number[] => [...new Array(length)].map(() => random(min / 2, max))
 
@@ -17,7 +19,7 @@ const array: Ref<number[]> = ref(randomArray(length.value, min, max))
 
 watch(length, () => array.value = randomArray(length.value, min, max))
 
-const sortArray = (array: number[], fn : Function): number[] => fn(array)
+const sortArray = (array: number[], fn : Function): number[] => fn(array, n, m, selected)
 
 const listen = (algorithm: Function) : void => {
   algo.value = algorithm
@@ -37,7 +39,7 @@ const listen = (algorithm: Function) : void => {
     <Options @algorithm= "listen"/>
     <NButton @click="sortArray(array, algo)" type="info" ghost size="large" :disabled="!selected">Sort!</NButton>
   </section>
-  <ArrayView :length="length" :array="array"/>
+  <ArrayView :length="length" :array="array" :n="n" :m="m"/>
 </template>
 
 <style scoped></style>
