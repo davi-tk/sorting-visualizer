@@ -1,6 +1,6 @@
 <template>
     <NSelect v-model:value="value" :options="options" size="large" class="col-span-2"
-    @update:value="emit('algorithm', algos[value])">
+        @update:value="emit('algorithm', algos[value])">
 
     </NSelect>
 </template>
@@ -9,45 +9,46 @@
 import { NSelect } from 'naive-ui';
 import { Ref, ref } from 'vue';
 
-const value : Ref<number> = ref(-1)
+const value: Ref<number> = ref(-1)
 
-const swap = (arr : number[], n:number, m:number) : void => {
-    const aux  = arr[n]
+const swap = (arr: number[], n: number, m: number): void => {
+    const aux = arr[n]
     arr[n] = arr[m]
-    arr[m]  = aux
+    arr[m] = aux
 
-} 
+}
 
-const bubbleSort = (arr : number[]) : void => {
+const bubbleSort = (arr: number[]): void => {
 
-    for (let i : number = 0; i < arr.length - 2; i++){
-       if (arr[i] > arr[i + 1])
-            swap(arr, i, i+1)
+    for (var i = 0; i < arr.length; i++) {
+        for (var j = 0; j < (arr.length - i - 1); j++) {
+            if (arr[j] > arr[j + 1]) {
+                swap(arr, j, j+1)
+            }
+        }
     }
 }
 
 const options = [
 
     {
-        label : 'Select an algorithm',
-        value : -1
+        label: 'Select an algorithm',
+        value: -1
     },
     {
-        label : 'Bubble Sort',
-        value : 0
+        label: 'Bubble Sort',
+        value: 0
     }
 ]
 
-const algos : Function[] = [
+const algos: Function[] = [
     bubbleSort,
 ]
 
 const emit = defineEmits<{
-    (e : 'algorithm', value : Function ) : void
+    (e: 'algorithm', value: Function): void
 }>()
 
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
