@@ -14,8 +14,10 @@ const n : Ref<number> = ref(-1)
 const m : Ref<number> = ref(-1)
 const done : Ref<boolean> = ref(false)
 const delay : Ref<number> = ref(0.1)
- 
+const positioned : Ref<number[]> = ref([])
+  
 const randomArray = (length: number, min: number, max: number): number[] => {
+  positioned.value = []
   done.value = false
   return [...new Array(length)].map(() => random(min / 2, max))
 }
@@ -27,7 +29,7 @@ const sortArray = (array: number[], fn : Function): number[] => {
 
   const speed = 300 - delay.value - 0.1
 
-  return fn(array, n, m, selected, done, speed)
+  return fn(array, n, m, selected, done, speed, positioned)
 } 
 
 const listen = (algorithm: Function) : void => {
@@ -55,7 +57,7 @@ const listen = (algorithm: Function) : void => {
     <NButton @click="array = randomArray(length, min, max)" type="primary" ghost size="large" class="col-span-2">Generate New Array</NButton>
     <NButton @click="sortArray(array, algo)" type="info" ghost size="large" :disabled="!selected">Sort!</NButton>
   </section>
-  <ArrayView :done="done" :length="length" :array="array" :n="n" :m="m"/>
+  <ArrayView :positioned="positioned" :done="done" :length="length" :array="array" :n="n" :m="m"/>
 </template>
 
 <style scoped></style>

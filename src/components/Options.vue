@@ -18,24 +18,61 @@ const swap = (arr: number[], n: number, m: number): void => {
 
 }
 
-function sleep(ms : number) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
+function sleep(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
-const bubbleSort = async (arr: number[], n:Ref<number>, m:Ref<number>, active:Ref<boolean>, done : Ref<boolean>, delay : number): Promise<void> => {
+const bubbleSort = async (arr: number[], n: Ref<number>, m: Ref<number>, active: Ref<boolean>, done: Ref<boolean>, delay: number, positioned: Ref<number[]>): Promise<void> => {
 
     active.value = false
 
 
-    for (var i = 0; i < arr.length; i++) {
-        for (var j = 0; j < (arr.length - i - 1); j++) {
-            n.value = j
-            m.value = j+1
-            if (arr[j] > arr[j + 1]) {
-                await(sleep(delay))
-                swap(arr, j, j+1)
+    let checked: boolean;
+    let j: number = 0
+    do {
+        checked = false;
+        for (let i = 0; i < arr.length - j - 1; i++) {
+            n.value = i
+            m.value = i + 1
+            console.log(j, i)
+
+            if (arr[i] > arr[i + 1]) {
+                swap(arr, i, i + 1)
+                checked = true;
+            }
+            await sleep(delay)
+
+        }
+        positioned.value.push(arr.length - 1 - j)
+        j++
+    } while (checked && j < arr.length);
+
+    n.value = -1
+    m.value = -1
+    active.value = true
+    done.value = true
+}
+
+const selectionSort = async (arr: number[], n: Ref<number>, m: Ref<number>, active: Ref<boolean>, done: Ref<boolean>, delay: number, positioned: Ref<number[]>): Promise<void> => {
+
+    active.value = false
+
+
+    for (let i = 0; i < arr.length; i++) {
+        let min = i;
+        n.value = i
+        for (let j = i + 1; j < arr.length; j++) {
+            if (arr[j] < arr[min]) {
+                min = j;
             }
         }
+        if (min != i) {
+            m.value = min
+            await (sleep(delay))
+            swap(arr, min, i)
+        }
+
+        positioned.value.push(i)
     }
 
     n.value = -1
@@ -48,16 +85,22 @@ const options = [
 
     {
         label: 'Select an algorithm',
-        value: -1
+        value: -1,
+        disabled: true
     },
     {
         label: 'Bubble Sort',
         value: 0
+    },
+    {
+        label: 'Selection Sort',
+        value: 1
     }
 ]
 
 const algos: Function[] = [
     bubbleSort,
+    selectionSort,
 ]
 
 const emit = defineEmits<{
