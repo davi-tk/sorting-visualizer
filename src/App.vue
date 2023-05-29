@@ -51,8 +51,8 @@ const listen = (algorithm: Function) : void => {
       <n-slider :min=0.1 v-model:value="delay" :step="25" :max="300" class="my-4" />
       <n-input-number :min="0.1" v-model:value="delay" :max="300" size="large" />
     </div>
-    <NButton @click="array = randomArray(length, min, max)" type="primary" ghost size="large" class="col-span-2">Generate New Array</NButton>
     <Options @algorithm= "listen"/>
+    <NButton @click="array = randomArray(length, min, max)" type="primary" ghost size="large" class="col-span-2">Generate New Array</NButton>
     <NButton @click="sortArray(array, algo)" type="info" ghost size="large" :disabled="!selected">Sort!</NButton>
   </section>
   <ArrayView :done="done" :length="length" :array="array" :n="n" :m="m"/>
