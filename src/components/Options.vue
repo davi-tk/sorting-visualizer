@@ -22,23 +22,26 @@ function sleep(ms : number) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
-const bubbleSort = async (arr: number[], n:Ref<number>, m:Ref<number>, active:Ref<boolean>): Promise<void> => {
+const bubbleSort = async (arr: number[], n:Ref<number>, m:Ref<number>, active:Ref<boolean>, done : Ref<boolean>, delay : number): Promise<void> => {
 
     active.value = false
 
 
     for (var i = 0; i < arr.length; i++) {
         for (var j = 0; j < (arr.length - i - 1); j++) {
+            n.value = j
+            m.value = j+1
             if (arr[j] > arr[j + 1]) {
-                n.value = j
-                m.value = j+1
+                await(sleep(delay))
                 swap(arr, j, j+1)
             }
-            await(sleep(30))
         }
     }
 
+    n.value = -1
+    m.value = -1
     active.value = true
+    done.value = true
 }
 
 const options = [
