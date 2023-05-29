@@ -22,6 +22,17 @@ function sleep(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+const customDone = async(arr : number[], positioned: Ref<number[]>, done: Ref<boolean>) : Promise<void> => {
+    for (let i = 0; i < arr.length - 1; i ++){
+        if (i > i + 1) return
+        await sleep(10)
+        positioned.value.push(i)
+    }
+
+    done.value = true
+    
+}
+
 const bubbleSort = async (arr: number[], n: Ref<number>, m: Ref<number>, active: Ref<boolean>, done: Ref<boolean>, delay: number, positioned: Ref<number[]>): Promise<void> => {
 
     active.value = false
@@ -41,15 +52,14 @@ const bubbleSort = async (arr: number[], n: Ref<number>, m: Ref<number>, active:
                 checked = true;
             }
             await sleep(delay)
-
         }
-        positioned.value.push(arr.length - 1 - j)
         j++
     } while (checked && j < arr.length);
 
     n.value = -1
     m.value = -1
-    active.value = true
+    
+    await customDone(arr, positioned, done)
     done.value = true
 }
 
@@ -72,13 +82,46 @@ const selectionSort = async (arr: number[], n: Ref<number>, m: Ref<number>, acti
             swap(arr, min, i)
         }
 
-        positioned.value.push(i)
     }
 
     n.value = -1
     m.value = -1
+
+    await customDone(arr, positioned, done)
+
+
+
     active.value = true
     done.value = true
+}
+
+const insertionSort = async (arr: number[], n: Ref<number>, m: Ref<number>, active: Ref<boolean>, done: Ref<boolean>, delay: number, positioned: Ref<number[]>): Promise<void> => {
+
+    active.value = false
+
+
+    for (let i = 0; i < arr.length; i++){
+        let key = arr[i]
+        let j = i - 1
+
+        while (j >= 0 && key < arr[j]){
+            n.value = j
+            m.value = j + 1
+            await sleep(delay)
+            arr[j+1] = arr[j]
+            j--
+        }
+        arr[j+1] = key
+    }
+
+    n.value = -1
+    m.value = -1
+
+    await customDone(arr, positioned, done)
+
+    active.value = true
+    
+
 }
 
 const options = [
@@ -95,12 +138,17 @@ const options = [
     {
         label: 'Selection Sort',
         value: 1
+    },
+    {
+        label: 'Insertion Sort',
+        value: 2
     }
 ]
 
 const algos: Function[] = [
     bubbleSort,
     selectionSort,
+    insertionSort,
 ]
 
 const emit = defineEmits<{
