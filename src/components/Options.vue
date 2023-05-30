@@ -125,7 +125,7 @@ const insertionSort = async (arr: number[], n: Ref<number>, m: Ref<number>, dela
 
 const quickSort = async (arr: number[], n: Ref<number>, m: Ref<number>, delay: number, positioned: Ref<number[]>): Promise<number[]> => {
 
-    function partition(arr : number[], low: number, high:number)
+    async function  partition(arr : number[], low: number, high:number) : Promise<number>
     {
         let pivot = arr[high];
     
@@ -133,14 +133,17 @@ const quickSort = async (arr: number[], n: Ref<number>, m: Ref<number>, delay: n
         for (let j = low; j <= high - 1; j++) {
             n.value = i
             m.value = j
+            await sleep(delay)
             if (arr[j] <= pivot) {
                 i++;
-    
+                
                 swap(arr, i, j)
+
             }
         }
     
 
+        await sleep(delay)
         swap(arr,i+1, high)
     
         return i + 1;
@@ -150,8 +153,7 @@ const quickSort = async (arr: number[], n: Ref<number>, m: Ref<number>, delay: n
     {
         if (low < high) {
 
-            await sleep(delay)
-            let partitionIndex = partition(arr, low, high);
+            let partitionIndex = await partition(arr, low, high);
             arr = await qSort(arr, low, partitionIndex - 1);
             arr = await qSort(arr, partitionIndex + 1, high);
 
