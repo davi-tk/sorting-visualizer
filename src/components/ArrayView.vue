@@ -4,7 +4,7 @@
             
             <div v-for="(value, index) in props.array" :key="index"
             class="text-center text-neutral-800 font-bold" :class="{'bg-blue-400 animate-bounce' : (index == props.n || index == props.m)
-            , 'bg-emerald-400' : done || positioned.includes(index), 'bg-neutral-300' : (!done && index !== props.n && index !== props.m && !positioned.includes(index))}"
+            , 'bg-emerald-400' : positioned.includes(index), 'bg-neutral-300' : (index !== props.n && index !== props.m && !positioned.includes(index))}"
             :style="{height: `${(value/6) +1.5}rem`, width: `calc(2rem - ${length/70}rem)`,
             minWidth: '5px'}">
             <p v-show="length <= 30">{{ value }}</p>
@@ -22,7 +22,6 @@ const props = defineProps<{
     length : number,
     n : number,
     m : number,
-    done : boolean,
     positioned : number[]
 }>()
 
