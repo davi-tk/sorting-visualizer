@@ -14,6 +14,7 @@ const n : Ref<number> = ref(-1)
 const m : Ref<number> = ref(-1)
 const done : Ref<boolean> = ref(false)
 const positioned : Ref<number[]> = ref([])
+
   
 const randomArray = (length: number, min: number, max: number): number[] => {
   positioned.value = []

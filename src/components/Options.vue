@@ -125,24 +125,47 @@ const insertionSort = async (arr: number[], n: Ref<number>, m: Ref<number>, dela
 
 const quickSort = async (arr: number[], n: Ref<number>, m: Ref<number>, delay: number, positioned: Ref<number[]>): Promise<number[]> => {
 
-    if (arr.length <= 1) {
-        return arr;
-    }
-
-    let pivot = arr[0];
-    let leftArr = [];
-    let rightArr = [];
-
-    for (let i = 1; i < arr.length; i++) {
-        if (arr[i] < pivot) {
-            leftArr.push(arr[i]);
-        } else {
-            rightArr.push(arr[i]);
+    function partition(arr : number[], low: number, high:number)
+    {
+        let pivot = arr[high];
+    
+        let i = (low - 1);
+        for (let j = low; j <= high - 1; j++) {
+            n.value = i
+            m.value = j
+            if (arr[j] <= pivot) {
+                i++;
+    
+                swap(arr, i, j)
+            }
         }
+    
+
+        swap(arr,i+1, high)
+    
+        return i + 1;
+    }
+    
+    async function qSort(arr:number[], low:number, high:number) : Promise<number[]>
+    {
+        if (low < high) {
+
+            await sleep(delay)
+            let partitionIndex = partition(arr, low, high);
+            arr = await qSort(arr, low, partitionIndex - 1);
+            arr = await qSort(arr, partitionIndex + 1, high);
+
+        }
+        return arr
     }
 
-    return [...await quickSort(leftArr, n, m, delay, positioned), pivot, ...await quickSort(rightArr, n, m, delay, positioned)]
+    await qSort(arr, 0, arr.length - 1)
+    
+    n.value = -1
+    m.value = -1
 
+    await customDone(arr, positioned)
+    return arr
 
 }
 
