@@ -22,21 +22,26 @@ function sleep(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-const customDone = async(arr : number[], positioned: Ref<number[]>, done: Ref<boolean>) : Promise<void> => {
-    for (let i = 0; i < arr.length - 1; i ++){
-        if (i > i + 1) return
-        await sleep(10)
+const customDone = async (arr: number[], positioned: Ref<number[]>): Promise<void> => {
+    for (let i = 0; i < arr.length; i++) {
+
+        if (i == arr.length - 1) {
+
+            positioned.value.push(i)
+            return
+        }
+
+        else if (i > i + 1) console.log('deu merda')
+
+        await sleep(5)
         positioned.value.push(i)
     }
 
-    done.value = true
-    
+
+
 }
 
-const bubbleSort = async (arr: number[], n: Ref<number>, m: Ref<number>, active: Ref<boolean>, done: Ref<boolean>, delay: number, positioned: Ref<number[]>): Promise<void> => {
-
-    active.value = false
-
+const bubbleSort = async (arr: number[], n: Ref<number>, m: Ref<number>, delay: number, positioned: Ref<number[]>): Promise<number[]> => {
 
     let checked: boolean;
     let j: number = 0
@@ -45,40 +50,40 @@ const bubbleSort = async (arr: number[], n: Ref<number>, m: Ref<number>, active:
         for (let i = 0; i < arr.length - j - 1; i++) {
             n.value = i
             m.value = i + 1
-            console.log(j, i)
+
 
             if (arr[i] > arr[i + 1]) {
                 swap(arr, i, i + 1)
                 checked = true;
             }
             await sleep(delay)
+
+
         }
         j++
     } while (checked && j < arr.length);
 
     n.value = -1
     m.value = -1
-    
-    await customDone(arr, positioned, done)
-    done.value = true
+
+    await customDone(arr, positioned)
+    return arr
+
 }
 
-const selectionSort = async (arr: number[], n: Ref<number>, m: Ref<number>, active: Ref<boolean>, done: Ref<boolean>, delay: number, positioned: Ref<number[]>): Promise<void> => {
-
-    active.value = false
-
+const selectionSort = async (arr: number[], n: Ref<number>, m: Ref<number>, delay: number, positioned: Ref<number[]>): Promise<number[]> => {
 
     for (let i = 0; i < arr.length; i++) {
         let min = i;
         n.value = i
         for (let j = i + 1; j < arr.length; j++) {
+        await (sleep(delay))
             if (arr[j] < arr[min]) {
                 min = j;
             }
         }
         if (min != i) {
             m.value = min
-            await (sleep(delay))
             swap(arr, min, i)
         }
 
@@ -87,42 +92,60 @@ const selectionSort = async (arr: number[], n: Ref<number>, m: Ref<number>, acti
     n.value = -1
     m.value = -1
 
-    await customDone(arr, positioned, done)
+    await customDone(arr, positioned)
+    return arr
 
 
-
-    active.value = true
-    done.value = true
 }
 
-const insertionSort = async (arr: number[], n: Ref<number>, m: Ref<number>, active: Ref<boolean>, done: Ref<boolean>, delay: number, positioned: Ref<number[]>): Promise<void> => {
+const insertionSort = async (arr: number[], n: Ref<number>, m: Ref<number>, delay: number, positioned: Ref<number[]>): Promise<number[]> => {
 
-    active.value = false
-
-
-    for (let i = 0; i < arr.length; i++){
+    for (let i = 0; i < arr.length; i++) {
         let key = arr[i]
         let j = i - 1
 
-        while (j >= 0 && key < arr[j]){
+        while (j >= 0 && key < arr[j]) {
             n.value = j
             m.value = j + 1
-            await sleep(delay)
-            arr[j+1] = arr[j]
+            arr[j + 1] = arr[j]
             j--
+            await sleep(delay)
         }
-        arr[j+1] = key
+        arr[j + 1] = key
     }
 
     n.value = -1
     m.value = -1
 
-    await customDone(arr, positioned, done)
+    await customDone(arr, positioned)
+    return arr
 
-    active.value = true
-    
 
 }
+
+const quickSort = async (arr: number[], n: Ref<number>, m: Ref<number>, delay: number, positioned: Ref<number[]>): Promise<number[]> => {
+
+    if (arr.length <= 1) {
+        return arr;
+    }
+
+    let pivot = arr[0];
+    let leftArr = [];
+    let rightArr = [];
+
+    for (let i = 1; i < arr.length; i++) {
+        if (arr[i] < pivot) {
+            leftArr.push(arr[i]);
+        } else {
+            rightArr.push(arr[i]);
+        }
+    }
+
+    return [...await quickSort(leftArr, n, m, delay, positioned), pivot, ...await quickSort(rightArr, n, m, delay, positioned)]
+
+
+}
+
 
 const options = [
 
@@ -142,6 +165,10 @@ const options = [
     {
         label: 'Insertion Sort',
         value: 2
+    },
+    {
+        label: 'Quick Sort',
+        value: 3
     }
 ]
 
@@ -149,6 +176,7 @@ const algos: Function[] = [
     bubbleSort,
     selectionSort,
     insertionSort,
+    quickSort,
 ]
 
 const emit = defineEmits<{

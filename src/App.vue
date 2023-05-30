@@ -13,7 +13,6 @@ const algo : Ref<Function> = ref(() => {})
 const n : Ref<number> = ref(-1)
 const m : Ref<number> = ref(-1)
 const done : Ref<boolean> = ref(false)
-const delay : Ref<number> = ref(0.1)
 const positioned : Ref<number[]> = ref([])
   
 const randomArray = (length: number, min: number, max: number): number[] => {
@@ -25,11 +24,15 @@ const array: Ref<number[]> = ref(randomArray(length.value, min, max))
 
 watch(length, () => array.value = randomArray(length.value, min, max))
 
-const sortArray = (array: number[], fn : Function): number[] => {
+const sortArray = async ( fn : Function): Promise<void> => {
 
-  const speed = 300 - delay.value - 0.1
+  selected.value = false
+  const speed = 0
 
-  return fn(array, n, m, selected, done, speed, positioned)
+  array.value =  await (fn(array.value, n, m, speed, positioned))
+
+  selected.value = true
+  console.log(array)
 } 
 
 const listen = (algorithm: Function) : void => {
@@ -37,7 +40,7 @@ const listen = (algorithm: Function) : void => {
   selected.value = true
 }
 
-
+const log = () => console.log(array.value)
 
 </script>
 
@@ -48,14 +51,10 @@ const listen = (algorithm: Function) : void => {
       <n-slider :min=min v-model:value="length" :step="2" :max="max" class="my-4" />
       <n-input-number :min="min" v-model:value="length" :max="max" size="large" />
     </div>
-    <div id="speed" class="pt-4 pl-4 ">
-      <h3 class="text-lg">Speed</h3>
-      <n-slider :min=0.1 v-model:value="delay" :step="25" :max="300" class="my-4" />
-      <n-input-number :min="0.1" v-model:value="delay" :max="300" size="large" />
-    </div>
     <Options @algorithm= "listen"/>
     <NButton @click="array = randomArray(length, min, max)" type="primary" ghost size="large" class="col-span-2">Generate New Array</NButton>
-    <NButton @click="sortArray(array, algo)" type="info" ghost size="large" :disabled="!selected">Sort!</NButton>
+    <NButton @click="sortArray(algo)" type="info" ghost size="large" :disabled="!selected">Sort!</NButton>
+    <button @click="log">log</button>
   </section>
   <ArrayView :positioned="positioned" :done="done" :length="length" :array="array" :n="n" :m="m"/>
 </template>
