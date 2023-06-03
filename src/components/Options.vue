@@ -77,7 +77,7 @@ const selectionSort = async (arr: number[], n: Ref<number>, m: Ref<number>, dela
         let min = i;
         n.value = i
         for (let j = i + 1; j < arr.length; j++) {
-        await (sleep(delay))
+            await (sleep(delay))
             if (arr[j] < arr[min]) {
                 min = j;
             }
@@ -125,10 +125,9 @@ const insertionSort = async (arr: number[], n: Ref<number>, m: Ref<number>, dela
 
 const quickSort = async (arr: number[], n: Ref<number>, m: Ref<number>, delay: number, positioned: Ref<number[]>): Promise<number[]> => {
 
-    async function  partition(arr : number[], low: number, high:number) : Promise<number>
-    {
+    const partition = async (arr: number[], low: number, high: number): Promise<number> => {
         let pivot = arr[high];
-    
+
         let i = (low - 1);
         for (let j = low; j <= high - 1; j++) {
             n.value = i
@@ -136,40 +135,103 @@ const quickSort = async (arr: number[], n: Ref<number>, m: Ref<number>, delay: n
             await sleep(delay)
             if (arr[j] <= pivot) {
                 i++;
-                
+
                 swap(arr, i, j)
 
             }
         }
-    
+
 
         await sleep(delay)
-        swap(arr,i+1, high)
-    
+        swap(arr, i + 1, high)
+
         return i + 1;
     }
-    
-    async function qSort(arr:number[], low:number, high:number) : Promise<number[]>
-    {
+
+    const sort = async (arr: number[], low: number, high: number): Promise<number[]> => {
         if (low < high) {
 
             let partitionIndex = await partition(arr, low, high);
-            arr = await qSort(arr, low, partitionIndex - 1);
-            arr = await qSort(arr, partitionIndex + 1, high);
+            arr = await sort(arr, low, partitionIndex - 1);
+            arr = await sort(arr, partitionIndex + 1, high);
 
         }
         return arr
     }
 
-    await qSort(arr, 0, arr.length - 1)
-    
+    await sort(arr, 0, arr.length - 1)
+
     n.value = -1
     m.value = -1
 
-    await customDone(arr, positioned)
     return arr
 
 }
+
+const mergeSort = async (arr: number[], n: Ref<number>, m: Ref<number>, delay: number, positioned: Ref<number[]>): Promise<number[]> => {
+
+
+    const merge = async (arr: number[], start: number, mid: number, end: number): Promise<void> => {
+        let start2 = mid + 1;
+
+        if (arr[mid] <= arr[start2]) {
+            return;
+        }
+
+
+        while (start <= mid && start2 <= end) {
+
+
+
+            if (arr[start] <= arr[start2]) {
+
+                start++;
+            }
+            else {
+                let value = arr[start2];
+                let index = start2;
+
+
+                while (index != start) {
+                    
+                    arr[index] = arr[index - 1];
+                    index--;
+
+                }
+                arr[start] = value;
+
+                start++;
+                mid++;
+                start2++;
+            }
+        }
+    }
+
+
+    const sort = async (arr: number[], l: number, r: number): Promise<number[]> => {
+        if (l < r) {
+
+            // Same as (l + r) / 2, but avoids overflow
+            // for large l and r
+            let m = l + Math.floor((r - l) / 2);
+
+            // Sort first and second halves
+            await sort(arr, l, m);
+            await sort(arr, m + 1, r);
+
+            await merge(arr, l, m, r);
+        }
+
+        return arr
+    }
+
+    await sort(arr, 0, arr.length - 1)
+
+    await customDone(arr, positioned)
+    return arr
+}
+
+
 
 
 const options = [
@@ -194,6 +256,10 @@ const options = [
     {
         label: 'Quick Sort',
         value: 3
+    },
+    {
+        label: 'Merge Sort',
+        value: 4
     }
 ]
 
@@ -202,6 +268,7 @@ const algos: Function[] = [
     selectionSort,
     insertionSort,
     quickSort,
+    mergeSort,
 ]
 
 const emit = defineEmits<{
