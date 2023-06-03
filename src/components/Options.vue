@@ -163,6 +163,7 @@ const quickSort = async (arr: number[], n: Ref<number>, m: Ref<number>, delay: n
 
     n.value = -1
     m.value = -1
+    await customDone(arr, positioned)
 
     return arr
 
