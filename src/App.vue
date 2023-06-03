@@ -45,6 +45,7 @@ const sortArray = async ( fn : Function): Promise<void> => {
 
 const listen = (algorithm: Function) : void => {
   algo.value = algorithm
+  if(positioned.value.length == 0)
   selected.value = true
 }
 
