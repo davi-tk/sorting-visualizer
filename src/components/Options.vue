@@ -181,7 +181,8 @@ const mergeSort = async (arr: number[], n: Ref<number>, m: Ref<number>, delay: n
 
         while (start <= mid && start2 <= end) {
 
-
+            n.value = start
+            m.value = start2
 
             if (arr[start] <= arr[start2]) {
 
@@ -193,6 +194,7 @@ const mergeSort = async (arr: number[], n: Ref<number>, m: Ref<number>, delay: n
 
 
                 while (index != start) {
+                    await sleep(delay)
                     
                     arr[index] = arr[index - 1];
                     index--;
@@ -226,7 +228,8 @@ const mergeSort = async (arr: number[], n: Ref<number>, m: Ref<number>, delay: n
     }
 
     await sort(arr, 0, arr.length - 1)
-
+    n.value = -1
+    m.value = -1
     await customDone(arr, positioned)
     return arr
 }
