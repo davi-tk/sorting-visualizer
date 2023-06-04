@@ -55,8 +55,8 @@ const bubbleSort = async (arr: number[], n: Ref<number>, m: Ref<number>, delay: 
             if (arr[i] > arr[i + 1]) {
                 swap(arr, i, i + 1)
                 checked = true;
+                await sleep(delay)
             }
-            await sleep(delay)
 
 
         }
@@ -77,10 +77,10 @@ const selectionSort = async (arr: number[], n: Ref<number>, m: Ref<number>, dela
         let min = i;
         n.value = i
         for (let j = i + 1; j < arr.length; j++) {
-            await (sleep(delay))
             if (arr[j] < arr[min]) {
                 min = j;
             }
+            await (sleep(delay))
         }
         if (min != i) {
             m.value = min
@@ -134,6 +134,7 @@ const quickSort = async (arr: number[], n: Ref<number>, m: Ref<number>, delay: n
             m.value = j
             await sleep(delay)
             if (arr[j] <= pivot) {
+
                 i++;
 
                 swap(arr, i, j)
@@ -196,7 +197,7 @@ const mergeSort = async (arr: number[], n: Ref<number>, m: Ref<number>, delay: n
 
 
                 while (index != start) {
-                    
+
                     arr[index] = arr[index - 1];
                     index--;
 
