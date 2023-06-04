@@ -142,7 +142,6 @@ const quickSort = async (arr: number[], n: Ref<number>, m: Ref<number>, delay: n
         }
 
 
-        await sleep(delay)
         swap(arr, i + 1, high)
 
         return i + 1;
@@ -185,6 +184,8 @@ const mergeSort = async (arr: number[], n: Ref<number>, m: Ref<number>, delay: n
             n.value = start
             m.value = start2
 
+            await sleep(delay)
+
             if (arr[start] <= arr[start2]) {
 
                 start++;
@@ -195,7 +196,6 @@ const mergeSort = async (arr: number[], n: Ref<number>, m: Ref<number>, delay: n
 
 
                 while (index != start) {
-                    await sleep(delay)
                     
                     arr[index] = arr[index - 1];
                     index--;
