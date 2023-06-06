@@ -53,13 +53,13 @@ const listen = (algorithm: Function) : void => {
 </script>
 
 <template>
-  <section id="controllers" class="grid grid-flow-col grid-cols-10 items-end gap-10">
-    <div id="array-size" class="pt-4 pl-4">
+  <section id="controllers" class="grid grid-flow-col grid-cols-7 items-end gap-10 w-2/3 m-auto">
+    <div id="array-size" class="pt-4">
       <h3 class="text-lg">Array size</h3>
       <n-slider :min=min v-model:value="length" :step="2" :max="max" class="my-4" :disabled="done" />
       <n-input-number :min="min" v-model:value="length" :max="max" size="large" :disabled="done" />
     </div>
-    <div id="delay" class="pt-4 pl-4">
+    <div id="delay" class="pt-4">
       <h3 class="text-lg">Delay between swaps</h3>
       <n-slider :min="0" v-model:value="delay" :step="2" :max="100" class="my-4" :disabled="done" />
       <n-input-number :min="0" v-model:value="delay" :max="100" size="large" :disabled="done" />

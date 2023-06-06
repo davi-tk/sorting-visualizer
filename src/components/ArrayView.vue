@@ -5,9 +5,9 @@
             <div v-for="(value, index) in props.array" :key="index"
             class="text-center text-neutral-800 font-bold" :class="{'bg-blue-400 animate-bounce' : (index == props.n || index == props.m)
             , 'bg-emerald-400' : positioned.includes(index), 'bg-neutral-300' : (index !== props.n && index !== props.m && !positioned.includes(index))}"
-            :style="{height: `${(value/6) +1.5}rem`, width: `calc(2rem - ${length/70}rem)`,
+            :style="{height: `${(value/6) +1.5}rem`, width: `calc(2rem - ${length/90}rem)`,
             minWidth: '5px'}">
-            <p v-show="length <= 30">{{ value }}</p>
+            <p v-show="length <= 50">{{ value }}</p>
             </div>
         </div>
     </section>
@@ -24,6 +24,8 @@ const props = defineProps<{
     m : number,
     positioned : number[]
 }>()
+
+
 
 
 
