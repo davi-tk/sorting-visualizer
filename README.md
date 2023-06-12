@@ -1,4 +1,4 @@
-# Sorting algorithm visualizer. [Check it up here]()
+# Sorting algorithm visualizer. [Check it up here](https://davi-tk.github.io/sorting-visualizer/)
 
 ![application_screenshot](https://i.imgur.com/0077tq3.png)
 
@@ -10,6 +10,7 @@
 - [Setup](#setup)
 
 ## Technologies
+
 1. Vite
 1. Vue 3 - ```<script setup>```
 1. Typescript
@@ -28,14 +29,17 @@ this task. Then, the purpose of this project is to help visualize some of the mo
 sorting algorithms work and observe how each of them operate and how fast they do it. 
 
 ## Features
-1. Change the length of the list of values to be sorted from 10 to 150.
+
+1. Change the length of the list of values to be sorted from 10 to 300.
 1. Change the speed in which the swaps will operate in (miliseconds).
 1. Choose the sorting algorithm to be used.
 1. Generate a new random list of values.
 1. Initiate the operation of sorting the list.
 
 ## Setup
+
 To run this project, clone it and install it locally using yarn.
+
 ```
 $ git clone https://github.com/davi-tk/sorting-visualizer.git
 $ cd ./sorting-visualizer

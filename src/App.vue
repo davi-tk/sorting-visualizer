@@ -9,7 +9,7 @@ const nope = () => 'nope'
 
 const min: number = 10
 const length: Ref<number> = ref(min)
-const max = 150
+const max = 300
 const selected : Ref<boolean> = ref(false)
 const algo : Ref<Function> = ref(nope)
 const n : Ref<number> = ref(-1)

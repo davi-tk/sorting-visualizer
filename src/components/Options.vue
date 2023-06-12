@@ -31,9 +31,7 @@ const customDone = async (arr: number[], positioned: Ref<number[]>): Promise<voi
             return
         }
 
-        else if (i > i + 1) console.log('deu merda')
-
-        await sleep(5)
+        await sleep(3)
         positioned.value.push(i)
     }
 
@@ -77,10 +75,10 @@ const selectionSort = async (arr: number[], n: Ref<number>, m: Ref<number>, dela
         let min = i;
         n.value = i
         for (let j = i + 1; j < arr.length; j++) {
+            await (sleep(delay))
             if (arr[j] < arr[min]) {
                 min = j;
             }
-            await (sleep(delay))
         }
         if (min != i) {
             m.value = min
@@ -104,12 +102,12 @@ const insertionSort = async (arr: number[], n: Ref<number>, m: Ref<number>, dela
         let key = arr[i]
         let j = i - 1
 
+        await sleep(delay)
         while (j >= 0 && key < arr[j]) {
             n.value = j
             m.value = j + 1
             arr[j + 1] = arr[j]
             j--
-            await sleep(delay)
         }
         arr[j + 1] = key
     }
@@ -129,10 +127,11 @@ const quickSort = async (arr: number[], n: Ref<number>, m: Ref<number>, delay: n
         let pivot = arr[high];
 
         let i = (low - 1);
+        await sleep(delay)
         for (let j = low; j <= high - 1; j++) {
+            await sleep(delay)
             n.value = i
             m.value = j
-            await sleep(delay)
             if (arr[j] <= pivot) {
 
                 i++;
