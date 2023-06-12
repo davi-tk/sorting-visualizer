@@ -32,7 +32,10 @@ const newArray = (length: number, min: number, max: number): number[] => {
 
 const array: Ref<number[]> = ref(randomArray(length.value, min, max))
 
-watch(length, () => array.value = randomArray(length.value, min, max))
+watch(length, () => {
+  array.value = randomArray(length.value, min, max)
+  positioned.value = []
+})
 
 const sortArray = async ( fn : Function): Promise<void> => {
 
